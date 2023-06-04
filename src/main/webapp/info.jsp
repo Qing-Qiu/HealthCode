@@ -48,17 +48,17 @@
                         <div class="form-group">
                             <label for="name">姓名：</label>
                             <input type="text" class="form-control" id="name" name="name"
-                                   placeholder="请输入姓名" disabled="disabled">
+                                   placeholder="${name}" disabled="disabled">
                         </div>
                         <div class="form-group">
                             <label for="num">学号/工号：</label>
                             <input type="text" class="form-control" id="num" name="num"
-                                   placeholder="请输入学号/工号">
+                                   placeholder="${num}" disabled="disabled">
                         </div>
                         <div class="form-group">
                             <label for="idnum">身份证：</label>
                             <input type="text" class="form-control" id="idnum" name="idnum"
-                                   placeholder="请输入身份证">
+                                   placeholder="${idnum}" disabled="disabled">
                         </div>
                         <div class="form-group">
                             <label for="phonenum">手机号：</label>

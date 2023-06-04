@@ -44,7 +44,9 @@ public class TSLoginServlet extends HttpServlet {
                     teacher1.setIdnum(rs.getString("idnum"));
                     if (teacher1.equals(teacher)) {
                         flag = true;
-                        request.setAttribute("Teacher", teacher);
+                        request.setAttribute("name", teacher.getName());
+                        request.setAttribute("num", teacher.getNum());
+                        request.setAttribute("idnum", teacher.getIdnum());
                         RequestDispatcher rd = request.getRequestDispatcher("info.jsp");
                         rd.forward(request, response);
                         break;
@@ -61,7 +63,9 @@ public class TSLoginServlet extends HttpServlet {
                     student1.setIdnum(rs.getString("idnum"));
                     if (student1.equals(student)) {
                         flag = true;
-                        request.setAttribute("Student", student);
+                        request.setAttribute("name", student.getName());
+                        request.setAttribute("num", student.getNum());
+                        request.setAttribute("idnum", student.getIdnum());
                         RequestDispatcher rd = request.getRequestDispatcher("info.jsp");
                         rd.forward(request, response);
                         break;
