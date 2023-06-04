@@ -44,7 +44,7 @@
             <div class="row">
                 <div class="col-md-6 col-md-offset-3">
                     <h2 class="text-center">师生健康码</h2>
-                    <img src="img/meow.jpg">
+                    <img src="img/meow.jpg">黄
                 </div>
             </div>
         </div>

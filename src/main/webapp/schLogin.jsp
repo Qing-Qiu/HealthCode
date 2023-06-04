@@ -68,29 +68,6 @@
     </footer>
 </div>
 <script type="text/javascript">
-    window.onload = function () {
-        var sName = localStorage.getItem("username");
-        var sPwd = localStorage.getItem("password");
-        if (sName && sPwd) {
-            document.getElementById("login").innerHTML =
-                '<li class="dropdown">\n' +
-                '<a class="dropdown-toggle" data-toggle="dropdown" href="#">' +
-                sName +
-                '<span class="caret"></span></a>\n' +
-                '<ul class="dropdown-menu">\n' +
-                '<li><a href="#" onclick="log_out()">登出</a></li>\n' +
-                '</ul>\n' +
-                '</li>'
-        }
-    }
-
-    function log_out() {
-        localStorage.removeItem("username");
-        localStorage.removeItem("password");
-        location.reload();
-    }
-</script>
-<script type="text/javascript">
     var form = $('#contact_us');
     $(document).ready(function () {
         form.bootstrapValidator({
