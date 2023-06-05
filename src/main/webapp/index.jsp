@@ -27,7 +27,7 @@
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#">管理员登录
                         <span class="caret"></span></a>
                     <ul class="dropdown-menu">
-                        <li><a href="adminLogin.jsp">系统管理</a></li>
+                        <li><a href="sysLogin.jsp">系统管理</a></li>
                         <li><a href="schLogin.jsp">校级管理</a></li>
                         <li><a href="colLogin.jsp">院级管理</a></li>
                     </ul>
@@ -126,7 +126,7 @@
                         stringLength: {
                             min: 18,
                             max: 18,
-                            message: '请输入身份证'
+                            message: '请输入18位身份证'
                         }
                     }
                 },

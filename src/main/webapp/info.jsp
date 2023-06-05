@@ -27,7 +27,7 @@
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#">管理员登录
                         <span class="caret"></span></a>
                     <ul class="dropdown-menu">
-                        <li><a href="adminLogin.jsp">系统管理</a></li>
+                        <li><a href="sysLogin.jsp">系统管理</a></li>
                         <li><a href="schLogin.jsp">校级管理</a></li>
                         <li><a href="colLogin.jsp">院级管理</a></li>
                     </ul>
@@ -136,6 +136,18 @@
                 validating: 'glyphicon glyphicon-refresh'
             },
             fields: {
+                phonenum: {
+                    validators: {
+                        notEmpty: {
+                            message: '手机号不能为空'
+                        },
+                        stringLength: {
+                            min: 11,
+                            max: 11,
+                            message: '请输入11位手机号'
+                        }
+                    }
+                },
                 radio1: {
                     validators: {
                         notEmpty: {

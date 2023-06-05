@@ -46,9 +46,9 @@ public class TSLoginServlet extends HttpServlet {
                     teacher1.setIdnum(new String(rs.getString("idnum").getBytes("UTF-8"), "GBK"));
                     if (teacher1.equals(teacher)) {
                         flag = true;
-                        request.setAttribute("name", new String(teacher.getName().getBytes("GBK"), "UTF-8"));
-                        request.setAttribute("num", new String(teacher.getNum().getBytes("GBK"), "UTF-8"));
-                        request.setAttribute("idnum", new String(teacher.getIdnum().getBytes("GBK"), "UTF-8"));
+                        request.getSession().setAttribute("name", new String(teacher.getName().getBytes("GBK"), "UTF-8"));
+                        request.getSession().setAttribute("num", new String(teacher.getNum().getBytes("GBK"), "UTF-8"));
+                        request.getSession().setAttribute("idnum", new String(teacher.getIdnum().getBytes("GBK"), "UTF-8"));
                         RequestDispatcher rd = request.getRequestDispatcher("info.jsp");
                         rd.forward(request, response);
                         break;
@@ -70,9 +70,9 @@ public class TSLoginServlet extends HttpServlet {
                     student1.setIdnum(new String(rs.getString("idnum").getBytes("UTF-8"), "GBK"));
                     if (student1.equals(student)) {
                         flag = true;
-                        request.setAttribute("name", new String(student.getName().getBytes("GBK"), "UTF-8"));
-                        request.setAttribute("num", new String(student.getNum().getBytes("GBK"), "UTF-8"));
-                        request.setAttribute("idnum", new String(student.getIdnum().getBytes("GBK"), "UTF-8"));
+                        request.getSession().setAttribute("name", new String(student.getName().getBytes("GBK"), "UTF-8"));
+                        request.getSession().setAttribute("num", new String(student.getNum().getBytes("GBK"), "UTF-8"));
+                        request.getSession().setAttribute("idnum", new String(student.getIdnum().getBytes("GBK"), "UTF-8"));
                         RequestDispatcher rd = request.getRequestDispatcher("info.jsp");
                         rd.forward(request, response);
                         break;

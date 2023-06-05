@@ -27,7 +27,7 @@
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#">管理员登录
                         <span class="caret"></span></a>
                     <ul class="dropdown-menu">
-                        <li><a href="adminLogin.jsp">系统管理</a></li>
+                        <li><a href="sysLogin.jsp">系统管理</a></li>
                         <li><a href="schLogin.jsp">校级管理</a></li>
                         <li><a href="colLogin.jsp">院级管理</a></li>
                     </ul>
@@ -42,9 +42,16 @@
     <div class="row">
         <div class="container">
             <div class="row">
-                <div class="col-md-6 col-md-offset-3">
+                <div class="col-md-6 col-md-offset-3" id="code">
                     <h2 class="text-center">师生健康码</h2>
-                    <img src="img/red.png">红
+                    <h3 class="text-center">姓名：${name}</h3>
+                    <h3 class="text-center" id="time"></h3>
+                    <h3 class="text-center">
+                        红码
+                    </h3>
+                    <div style="text-align: center">
+                        <img src="img/red.png">
+                    </div>
                 </div>
             </div>
         </div>
@@ -60,34 +67,25 @@
             <p>分享链接：<a href="#">Github</a> | <a href="#">QQ</a> | <a href="#">Wechat</a></p>
         </div>
     </footer>
-</div>
-<script type="text/javascript">
-    var form = $('#contact_us');
-    $(document).ready(function () {
-        form.bootstrapValidator({
-            message: '输入值不合法',
-            feedbackIcons: { //提示图标
-                valid: 'glyphicon glyphicon-ok',
-                invalid: 'glyphicon glyphicon-remove',
-                validating: 'glyphicon glyphicon-refresh'
-            },
-            fields: {
-                email: {
-                    validators: {
-                        notEmpty: {
-                            message: 'email不能为空'
-                        },
-                        emailAddress: {
-                            message: '请输入正确的邮件地址如：123@qq.com'
-                        }
-                    }
-                },
-                advice: {
-                    validators: {}
-                }
-            }
-        });
-    });
+</div><script type="text/javascript">
+    window.onload = function () {
+        showTime();
+        window.setInterval("showTime()", 1000);
+    }
+    function showTime() {
+        var oDt = new Date();
+        var sTime = "";
+        if (oDt.getHours() < 10) {
+            sTime += "0" + oDt.getHours() + ":";
+        } else sTime += oDt.getHours() + ":";
+        if (oDt.getMinutes() < 10) {
+            sTime += "0" + oDt.getMinutes() + ":";
+        } else sTime += oDt.getMinutes() + ":";
+        if (oDt.getSeconds() < 10) {
+            sTime += "0" + oDt.getSeconds();
+        } else sTime += oDt.getSeconds();
+        document.getElementById("time").innerHTML = sTime;
+    }
 </script>
 </body>
 </html>

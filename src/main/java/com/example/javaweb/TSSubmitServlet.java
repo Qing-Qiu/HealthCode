@@ -4,10 +4,24 @@ import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.sql.Connection;
+import java.sql.DriverManager;
 
 @WebServlet(name = "TSSubmitServlet", value = "/TSSubmitServlet")
 public class TSSubmitServlet extends HttpServlet {
+    Connection com = null;
+    String driver = "com.mysql.cj.jdbc.Driver";
+    String dburl = "jdbc:mysql://127.0.0.1:3306/javaweb?useUnicode=true&characterEncoding=UTF-8";
+    String user = "root";
+    String password = "root";
+
+    public void init() {
+        try {
+            Class.forName(driver);
+            com = DriverManager.getConnection(dburl, user, password);
+        } catch (Exception ignored) {
+        }
+    }
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String[] Q1 = request.getParameterValues("radio1");
@@ -16,23 +30,28 @@ public class TSSubmitServlet extends HttpServlet {
         String[] Q4 = request.getParameterValues("radio4");
         String[] Q5 = request.getParameterValues("radio5");
         String[] Q6 = request.getParameterValues("checkbox1");
-        if (Q1[0].equals("1") || Q2[0].equals("1") || Q6.length == 1 && !Q6[0].equals("1")) {
-            //yellow
-            System.out.println("yellow");
-            RequestDispatcher rd = request.getRequestDispatcher("yellow.jsp");
-            rd.forward(request, response);
-        } else if (Q3[0].equals("1") || Q4[0].equals("1") || Q6.length > 1) {
+        String color;
+        if (Q3[0].equals("1") || Q4[0].equals("1") || Q6.length > 1) {
             //red
+            color = "red";
             System.out.println("red");
             RequestDispatcher rd = request.getRequestDispatcher("red.jsp");
             rd.forward(request, response);
+        } else if (Q1[0].equals("1") || Q2[0].equals("1") || Q6.length == 1 && !Q6[0].equals("1")) {
+            //yellow
+            color = "yellow";
+            System.out.println("yellow");
+            RequestDispatcher rd = request.getRequestDispatcher("yellow.jsp");
+            rd.forward(request, response);
         } else if (Q5[0].equals("1")) {
             //green
+            color = "green";
             System.out.println("green");
             RequestDispatcher rd = request.getRequestDispatcher("green.jsp");
             rd.forward(request, response);
         } else {
             //gold
+            color = "gold";
             System.out.println("gold");
             RequestDispatcher rd = request.getRequestDispatcher("gold.jsp");
             rd.forward(request, response);
