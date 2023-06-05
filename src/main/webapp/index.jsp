@@ -85,7 +85,7 @@
     </footer>
 </div>
 <script type="text/javascript">
-    var form = $('#contact_us');
+    var form = $('#login_in');
     $(document).ready(function () {
         form.bootstrapValidator({
             message: '输入值不合法',
@@ -95,18 +95,47 @@
                 validating: 'glyphicon glyphicon-refresh'
             },
             fields: {
-                email: {
+                name: {
                     validators: {
                         notEmpty: {
-                            message: 'email不能为空'
+                            message: '姓名不能为空'
                         },
-                        emailAddress: {
-                            message: '请输入正确的邮件地址如：123@qq.com'
+                        stringLength: {
+                            min: 1,
+                            max: 8
                         }
                     }
                 },
-                advice: {
-                    validators: {}
+                num: {
+                    validators: {
+                        notEmpty: {
+                            message: '学号/工号不能为空'
+                        },
+                        stringLength: {
+                            min: 12,
+                            max: 12,
+                            message: '请输入12位学号/工号'
+                        }
+                    }
+                },
+                idnum: {
+                    validators: {
+                        notEmpty: {
+                            message: '身份证不能为空'
+                        },
+                        stringLength: {
+                            min: 18,
+                            max: 18,
+                            message: '请输入身份证'
+                        }
+                    }
+                },
+                role: {
+                    validators: {
+                        notEmpty: {
+                            message: '请选择选项'
+                        }
+                    }
                 }
             }
         });

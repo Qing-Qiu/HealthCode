@@ -97,7 +97,7 @@
                             <label><input type="checkbox" name="checkbox1" value="2">发烧（≥37.3°C）</label>
                             <label><input type="checkbox" name="checkbox1" value="3">乏力</label>
                             <label><input type="checkbox" name="checkbox1" value="4">干咳</label>
-                            <label><input type="checkbox" name="checkbox1" value="5">比赛</label>
+                            <label><input type="checkbox" name="checkbox1" value="5">鼻塞</label>
                             <label><input type="checkbox" name="checkbox1" value="6">流涕</label>
                             <label><input type="checkbox" name="checkbox1" value="7">咽痛</label>
                             <label><input type="checkbox" name="checkbox1" value="8">腹泻</label>
@@ -126,7 +126,7 @@
     </footer>
 </div>
 <script type="text/javascript">
-    var form = $('#contact_us');
+    var form = $('#info');
     $(document).ready(function () {
         form.bootstrapValidator({
             message: '输入值不合法',
@@ -136,18 +136,54 @@
                 validating: 'glyphicon glyphicon-refresh'
             },
             fields: {
-                email: {
+                radio1: {
                     validators: {
                         notEmpty: {
-                            message: 'email不能为空'
-                        },
-                        emailAddress: {
-                            message: '请输入正确的邮件地址如：123@qq.com'
+                            message: '请选择选项'
                         }
                     }
                 },
-                advice: {
-                    validators: {}
+                radio2: {
+                    validators: {
+                        notEmpty: {
+                            message: '请选择选项'
+                        }
+                    }
+                },
+                radio3: {
+                    validators: {
+                        notEmpty: {
+                            message: '请选择选项'
+                        }
+                    }
+                },
+                radio4: {
+                    validators: {
+                        notEmpty: {
+                            message: '请选择选项'
+                        }
+                    }
+                },
+                radio5: {
+                    validators: {
+                        notEmpty: {
+                            message: '请选择选项'
+                        }
+                    }
+                },
+                radio6: {
+                    validators: {
+                        notEmpty: {
+                            message: '请选择选项'
+                        }
+                    }
+                },
+                checkbox1: {
+                    validators: {
+                        notEmpty: {
+                            message: '请至少选择1项'
+                        }
+                    }
                 }
             }
         });

@@ -14,7 +14,7 @@ import java.sql.Statement;
 public class TSLoginServlet extends HttpServlet {
     Connection com = null;
     String driver = "com.mysql.cj.jdbc.Driver";
-    String dburl = "jdbc:mysql://127.0.0.1:3306/javaweb";
+    String dburl = "jdbc:mysql://127.0.0.1:3306/javaweb?useUnicode=true&characterEncoding=UTF-8";
     String user = "root";
     String password = "root";
 
@@ -36,17 +36,19 @@ public class TSLoginServlet extends HttpServlet {
             if (role[0].equals("1")) {
                 sql = "SELECT * FROM teacherinfo;";
                 ResultSet rs = stat.executeQuery(sql);
-                Teacher teacher = new Teacher(request.getParameter("name"), request.getParameter("num"), request.getParameter("idnum"));
+                Teacher teacher = new Teacher(new String(request.getParameter("name").getBytes("iso-8859-1"), "GBK"),
+                        new String(request.getParameter("num").getBytes("iso-8859-1"), "GBK"),
+                        new String(request.getParameter("idnum").getBytes("iso-8859-1"), "GBK"));
                 while (rs.next()) {
                     Teacher teacher1 = new Teacher();
-                    teacher1.setName(rs.getString("name"));
-                    teacher1.setNum(rs.getString("num"));
-                    teacher1.setIdnum(rs.getString("idnum"));
+                    teacher1.setName(new String(rs.getString("name").getBytes("UTF-8"), "GBK"));
+                    teacher1.setNum(new String(rs.getString("num").getBytes("UTF-8"), "GBK"));
+                    teacher1.setIdnum(new String(rs.getString("idnum").getBytes("UTF-8"), "GBK"));
                     if (teacher1.equals(teacher)) {
                         flag = true;
-                        request.setAttribute("name", teacher.getName());
-                        request.setAttribute("num", teacher.getNum());
-                        request.setAttribute("idnum", teacher.getIdnum());
+                        request.setAttribute("name", new String(teacher.getName().getBytes("GBK"), "UTF-8"));
+                        request.setAttribute("num", new String(teacher.getNum().getBytes("GBK"), "UTF-8"));
+                        request.setAttribute("idnum", new String(teacher.getIdnum().getBytes("GBK"), "UTF-8"));
                         RequestDispatcher rd = request.getRequestDispatcher("info.jsp");
                         rd.forward(request, response);
                         break;
@@ -55,17 +57,22 @@ public class TSLoginServlet extends HttpServlet {
             } else {
                 sql = "SELECT * FROM studentinfo;";
                 ResultSet rs = stat.executeQuery(sql);
-                Student student = new Student(request.getParameter("name"), request.getParameter("num"), request.getParameter("idnum"));
+                Student student = new Student(new String(request.getParameter("name").getBytes("iso-8859-1"), "GBK"),
+                        new String(request.getParameter("num").getBytes("iso-8859-1"), "GBK"),
+                        new String(request.getParameter("idnum").getBytes("iso-8859-1"), "GBK"));
                 while (rs.next()) {
+//                    System.out.println(rs.getString("name")); //UTF-8
+//                    System.out.println(request.getParameter("name")); //iso-8859-1
+//                    System.out.println(new String(request.getParameter("name").getBytes("iso-8859-1"),"GBK"));//UTF-8
                     Student student1 = new Student();
-                    student1.setName(rs.getString("name"));
-                    student1.setNum(rs.getString("num"));
-                    student1.setIdnum(rs.getString("idnum"));
+                    student1.setName(new String(rs.getString("name").getBytes("UTF-8"), "GBK"));
+                    student1.setNum(new String(rs.getString("num").getBytes("UTF-8"), "GBK"));
+                    student1.setIdnum(new String(rs.getString("idnum").getBytes("UTF-8"), "GBK"));
                     if (student1.equals(student)) {
                         flag = true;
-                        request.setAttribute("name", student.getName());
-                        request.setAttribute("num", student.getNum());
-                        request.setAttribute("idnum", student.getIdnum());
+                        request.setAttribute("name", new String(student.getName().getBytes("GBK"), "UTF-8"));
+                        request.setAttribute("num", new String(student.getNum().getBytes("GBK"), "UTF-8"));
+                        request.setAttribute("idnum", new String(student.getIdnum().getBytes("GBK"), "UTF-8"));
                         RequestDispatcher rd = request.getRequestDispatcher("info.jsp");
                         rd.forward(request, response);
                         break;
