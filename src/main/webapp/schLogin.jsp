@@ -36,11 +36,11 @@
             <div class="row">
                 <div class="col-md-4 col-md-offset-4">
                     <h2 class="text-center">校级管理员登录</h2>
-                    <form id="login_in">
+                    <form id="login_in" action="SchLoginServlet" method="post">
                         <div class="form-group">
                             <label for="num">工号：</label>
                             <input type="text" class="form-control" id="num" name="num"
-                                   placeholder="请输入工号">
+                                   placeholder="请输入12位工号">
                         </div>
                         <div class="form-group">
                             <label for="password">密码：</label>
@@ -68,7 +68,7 @@
     </footer>
 </div>
 <script type="text/javascript">
-    var form = $('#contact_us');
+    var form = $('#login_in');
     $(document).ready(function () {
         form.bootstrapValidator({
             message: '输入值不合法',
@@ -78,19 +78,25 @@
                 validating: 'glyphicon glyphicon-refresh'
             },
             fields: {
-                email: {
+                num: {
                     validators: {
                         notEmpty: {
-                            message: 'email不能为空'
+                            message: '工号不能为空'
                         },
-                        emailAddress: {
-                            message: '请输入正确的邮件地址如：123@qq.com'
+                        stringLength: {
+                            min: 12,
+                            max: 12,
+                            message: '请输入12位工号'
                         }
                     }
                 },
-                advice: {
-                    validators: {}
-                }
+                password: {
+                    validators: {
+                        notEmpty: {
+                            message: '密码不能为空'
+                        }
+                    }
+                },
             }
         });
     });

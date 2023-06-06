@@ -20,36 +20,31 @@ public class SchLoginServlet extends HttpServlet {
         } catch (Exception ignored) {
         }
     }
+
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) {
         try {
             Statement stat = com.createStatement();
-            String sql="SELECT * FROM scl_admin;";
+            String sql = "SELECT * FROM sch_admin;";
             ResultSet rs = stat.executeQuery(sql);
-            SchAdmin schAdmin=new SchAdmin(request.getParameter("num"),request.getParameter("password"));
-            boolean flag=false;
+            SchAdmin schAdmin = new SchAdmin(request.getParameter("num"), request.getParameter("password"));
+            boolean flag = false;
             while (rs.next()) {
                 SchAdmin schAdmin1 = new SchAdmin();
                 schAdmin1.setNum(rs.getString("num"));
                 schAdmin1.setPassword(rs.getString("password"));
                 if (schAdmin1.equals(schAdmin)) {//登录成功
-                    flag=true;
-                    sql="SELECT * FROM ;";          //打卡情况数据表
-                    rs = stat.executeQuery(sql);
-                    ArrayList<Record> recordArrayList=null;
-                    recordArrayList=new ArrayList<Record>();
-                    while(rs.next()){
-                        Record rc=new Record();
-
-                        recordArrayList.add(rc);
-                    }
+                    flag = true;
+                    request.getSession().setAttribute("admin", "sch");
                     break;
                 }
             }
-            if(!flag){
-
+            if (!flag) {
+                response.sendRedirect("schLogin.jsp");
+            } else {
+                response.sendRedirect("schAdmin.jsp");
             }
-        }catch (Exception ignored) {
+        } catch (Exception ignored) {
         }
 
     }

@@ -30,32 +30,26 @@ public class ColLoginServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
             Statement stat = com.createStatement();
-            String sql="SELECT * FROM col_admin;";
+            String sql = "SELECT * FROM col_admin;";
             ResultSet rs = stat.executeQuery(sql);
-            ColAdmin colAdmin=new ColAdmin(request.getParameter("num"),request.getParameter("password"));
-            boolean flag=false;
+            ColAdmin colAdmin = new ColAdmin(request.getParameter("num"), request.getParameter("password"));
+            boolean flag = false;
             while (rs.next()) {
                 ColAdmin colAdmin1 = new ColAdmin();
                 colAdmin1.setNum(rs.getString("num"));
                 colAdmin1.setPassword(rs.getString("password"));
                 if (colAdmin1.equals(colAdmin)) {//登录成功
-                    flag=true;
-                    sql="SELECT * FROM ;";          //打卡情况数据表
-                    rs = stat.executeQuery(sql);
-                    ArrayList<Record> recordArrayList=null;
-                    recordArrayList=new ArrayList<Record>();
-                    while(rs.next()){
-                        Record rc=new Record();
-
-                        recordArrayList.add(rc);
-                    }
+                    flag = true;
+                    request.getSession().setAttribute("admin", "col");
                     break;
                 }
             }
-            if(!flag){
-
+            if (!flag) {
+                response.sendRedirect("colLogin.jsp");
+            } else {
+                response.sendRedirect("colAdmin.jsp");
             }
-        }catch (Exception ignored) {
+        } catch (Exception ignored) {
         }
     }
 }

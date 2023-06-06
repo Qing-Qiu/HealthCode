@@ -22,6 +22,27 @@
             <a class="navbar-brand" href="#">健康码系统</a>
         </div>
         <div class="collapse navbar-collapse" id="myNavbar">
+            <ul class="nav navbar-nav navbar-left">
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">查询信息
+                        <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="queryCol.jsp">学院信息</a></li>
+                        <li><a href="queryMaj.jsp">专业信息</a></li>
+                        <li><a href="queryCla.jsp">班级信息</a></li>
+                        <li><a href="queryStu.jsp">学生信息</a></li>
+                        <li><a href="queryRec.jsp">打卡信息</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">导入信息
+                        <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="insertTea.jsp">教师信息</a></li>
+                        <li><a href="insertStu.jsp">学生信息</a></li>
+                    </ul>
+                </li>
+            </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li><a href="index.jsp">师生登录</a></li>
             </ul>
@@ -35,17 +56,8 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-4 col-md-offset-4">
-                    <h2 class="text-center">系统管理员登录</h2>
-                    <form id="login_in" action="SysLoginServlet" method="post">
-                        <div class="form-group">
-                            <label for="password">密码：</label>
-                            <input type="password" class="form-control" id="password" name="password"
-                                   placeholder="请输入密码">
-                        </div>
-                        <div class="text-center">
-                            <button type="submit" class="btn btn-primary" id="btnLogin" style="width: 50%">登录</button>
-                        </div>
-                    </form>
+                    <h2 class="text-center">您好，系统管理员！</h2>
+
                 </div>
             </div>
         </div>
@@ -62,27 +74,5 @@
         </div>
     </footer>
 </div>
-<script type="text/javascript">
-    var form = $('#login_in');
-    $(document).ready(function () {
-        form.bootstrapValidator({
-            message: '输入值不合法',
-            feedbackIcons: { //提示图标
-                valid: 'glyphicon glyphicon-ok',
-                invalid: 'glyphicon glyphicon-remove',
-                validating: 'glyphicon glyphicon-refresh'
-            },
-            fields: {
-                password: {
-                    validators: {
-                        notEmpty: {
-                            message: '密码不能为空'
-                        }
-                    }
-                },
-            }
-        });
-    });
-</script>
 </body>
 </html>
