@@ -1,4 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ page import="java.sql.*" %>
+<%@ page import="java.io.*" %>
+<%@ page import="java.lang.*" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -36,7 +39,114 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-4 col-md-offset-4">
+                    <h2 class="text-center">添加教师信息</h2>
+                    <form id="login_in" action="insertTea.jsp" method="post">
+                        <div class="form-group">
+                            <label for="name">姓名：</label>
+                            <input type="text" class="form-control" id="name" name="name"
+                                   placeholder="请输入姓名">
+                        </div>
+                        <div class="form-group">
+                            <label for="idnum">身份证号：</label>
+                            <input type="text" class="form-control" id="idnum" name="idnum"
+                                   placeholder="请输入身份证号">
+                        </div>
+                        <div class="form-group">
+                            <label for="num">工号：</label>
+                            <input type="text" class="form-control" id="num" name="num"
+                                   placeholder="请输入工号">
+                        </div>
+                        <div class="form-group">
+                            <label for="col">学院：</label>
+                            <input type="text" class="form-control" id="col" name="col"
+                                   placeholder="请输入学院信息">
+                        </div>
+                        <div class="form-group">
+                            <label>角色：</label><br/>
+                            <label><input type="radio" name="role" value="1">系统管理员</label>
+                            <label><input type="radio" name="role" value="2">校级管理员</label>
+                            <label><input type="radio" name="role" value="3">院级管理员</label>
+                            <label><input type="radio" name="role" value="4" checked="checked">普通教师</label>
+                        </div>
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-primary" id="btnLogin" style="width: 50%">添加</button>
+                        </div>
+                        <div>
+                            <%
+                                if (request.getParameter("num") != null)
+                                    try {
+                                        Connection connection = null;
+                                        Connection com = null;
+                                        String driver = "com.mysql.cj.jdbc.Driver";
+                                        String dburl = "jdbc:mysql://127.0.0.1:3306/javaweb";
+                                        String user = "root";
+                                        String password = "root";
+                                        Class.forName(driver);
+                                        com = DriverManager.getConnection(dburl, user, password);
+                                        String sql = "INSERT INTO teacherinfo VALUES (?,?,?)";
+                                        PreparedStatement stat = com.prepareStatement(sql);
+                                        String name = new String(request.getParameter("name").getBytes("iso-8859-1"), "UTF-8");
+                                        String num = request.getParameter("num");
+                                        String idnum = request.getParameter("idnum");
+                                        stat.setString(1, name);
+                                        stat.setString(2, num);
+                                        stat.setString(3, idnum);
+                                        stat.executeUpdate();
 
+                                        String[] role = request.getParameterValues("role");
+                                        String rol = "teacher";
+                                        Integer affected_row = 0;
+                                        if (role != null)
+                                            if (role[0].equals("1")) {
+                                                //系统管理员
+                                                affected_row = 1;
+                                                rol = "sysadmin";
+                                            } else if (role[0].equals("2")) {
+                                                //校级管理员
+                                                sql = "INSERT INTO sch_admin VALUES (?,?)";
+                                                stat = com.prepareStatement(sql);
+                                                stat.setString(1, num);
+                                                stat.setString(2, idnum);
+                                                affected_row = stat.executeUpdate();
+                                                rol = "schadmin";
+                                            } else if (role[0].equals("3")) {
+                                                //院级管理员
+                                                sql = "INSERT INTO col_admin VALUES (?,?)";
+                                                stat = com.prepareStatement(sql);
+                                                stat.setString(1, num);
+                                                stat.setString(2, idnum);
+                                                affected_row = stat.executeUpdate();
+                                                rol = "coladmin";
+                                            }
+                                        if (affected_row != 0) {
+                                            out.println("Grant Successfully!");
+                                        }
+
+                                        //学院信息
+                                        sql = "INSERT INTO col VALUES (?,?)";
+                                        stat = com.prepareStatement(sql);
+                                        String col = request.getParameter("col");
+                                        stat.setString(1, num);
+                                        stat.setString(2, col);
+                                        stat.executeUpdate();
+
+                                        //教师信息
+                                        sql = "INSERT INTO tea VALUES (?,?,?,?,?)";
+                                        stat = com.prepareStatement(sql);
+                                        stat.setString(1, num);
+                                        stat.setString(2, name);
+                                        stat.setString(3, idnum);
+                                        stat.setString(4, rol);
+                                        stat.setString(5, col);
+                                        affected_row = stat.executeUpdate();
+                                        if (affected_row != 0) {
+                                            out.println("Insert Successfully!<br/>");
+                                        }
+                                    } catch (Exception e) {
+                                    }
+                            %>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
@@ -105,6 +215,68 @@
                 </li>`;
         }
     }
+</script>
+<script type="text/javascript">
+    var form = $('#login_in');
+    $(document).ready(function () {
+        form.bootstrapValidator({
+            message: '输入值不合法',
+            feedbackIcons: { //提示图标
+                valid: 'glyphicon glyphicon-ok',
+                invalid: 'glyphicon glyphicon-remove',
+                validating: 'glyphicon glyphicon-refresh'
+            },
+            fields: {
+                name: {
+                    validators: {
+                        notEmpty: {
+                            message: '姓名不能为空'
+                        },
+                        stringLength: {
+                            min: 1,
+                            max: 8
+                        }
+                    }
+                },
+                num: {
+                    validators: {
+                        notEmpty: {
+                            message: '学号不能为空'
+                        },
+                        stringLength: {
+                            min: 12,
+                            max: 12,
+                            message: '请输入12位学号'
+                        }
+                    }
+                },
+                idnum: {
+                    validators: {
+                        notEmpty: {
+                            message: '身份证不能为空'
+                        },
+                        stringLength: {
+                            min: 18,
+                            max: 18,
+                            message: '请输入18位身份证'
+                        }
+                    }
+                },
+                col: {
+                    validators: {
+                        notEmpty: {
+                            message: '请选择选项'
+                        },
+                        stringLength: {
+                            min: 4,
+                            max: 4,
+                            message: '请输入正确的学院信息'
+                        }
+                    }
+                }
+            }
+        });
+    });
 </script>
 </body>
 </html>

@@ -1,12 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ page import="java.sql.*" %>
-<%@ page import="javax.sql.*" %>
-<%@ page import="javax.naming.*" %>
-<%@ page import="javax.sql.DataSource" %>
 <%@ page import="java.util.ArrayList" %>
-<%
-
-%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -56,39 +50,50 @@
                         </div>
                     </form>
                 </div>
-                <div>
-                    <%
-                        try {
-                            Connection connection = null;
-                            Connection com = null;
-                            String driver = "com.mysql.cj.jdbc.Driver";
-                            String dburl = "jdbc:mysql://127.0.0.1:3306/javaweb";
-                            String user = "root";
-                            String password = "root";
-                            Class.forName(driver);
-                            com = DriverManager.getConnection(dburl, user, password);
-                            String sql = "SELECT * FROM col WHERE college = ? ;";
-                            PreparedStatement stat = com.prepareStatement(sql);
-                            String col = request.getParameter("col");
-                            stat.setString(1, col);
-                            ResultSet rs = stat.executeQuery();
-                            ArrayList<String> stringArrayList = new ArrayList<String>();
-                            while (rs.next()) {
-                                if (col.equals(rs.getString("college"))) {//匹配成功
-                                    stringArrayList.add(rs.getString("num"));
-                                }
+            </div>
+            <div class="row">
+                <%
+                    if(request.getParameter("col")!=null)
+                    try {
+                        Connection com = null;
+                        String driver = "com.mysql.cj.jdbc.Driver";
+                        String dburl = "jdbc:mysql://127.0.0.1:3306/javaweb";
+                        String user = "root";
+                        String password = "root";
+                        Class.forName(driver);
+                        com = DriverManager.getConnection(dburl, user, password);
+                        String sql = "SELECT * FROM col WHERE college = ? ;";
+                        PreparedStatement stat = com.prepareStatement(sql);
+                        String col = request.getParameter("col");
+                        stat.setString(1, col);
+                        ResultSet rs = stat.executeQuery();
+                        ArrayList<String> stringArrayList = new ArrayList<String>();
+                        while (rs.next()) {
+                            if (col.equals(rs.getString("college"))) {//匹配成功
+                                stringArrayList.add(rs.getString("num"));
                             }
-                            if (!stringArrayList.isEmpty())
-                                for (String num : stringArrayList) {
-//                                    System.out.println(num + " ");
-                                    out.println(num + " ");
-                                }
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                            System.out.println("error");
                         }
-                    %>
-                </div>
+                %>
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>Num</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <% if (!stringArrayList.isEmpty()) %>
+                    <% for (String num : stringArrayList) { %>
+                    <tr>
+                        <td><%= num %>
+                        </td>
+                    </tr>
+                    <% } %>
+                    </tbody>
+                </table>
+                <%
+                    } catch (Exception e) {
+                    }
+                %>
             </div>
         </div>
     </div>

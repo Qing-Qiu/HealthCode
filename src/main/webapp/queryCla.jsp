@@ -1,4 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ page import="java.sql.*" %>
+<%@ page import="java.util.ArrayList" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -37,7 +39,7 @@
             <div class="row">
                 <div class="col-md-4 col-md-offset-4">
                     <h2 class="text-center">班级信息查询</h2>
-                    <form id="login_in" action="QueryClaServlet" method="post">
+                    <form id="login_in" action="queryCla.jsp" method="post">
                         <div class="form-group">
                             <label for="cla">班级：</label>
                             <input type="text" class="form-control" id="cla" name="cla"
@@ -48,6 +50,50 @@
                         </div>
                     </form>
                 </div>
+            </div>
+            <div class="row">
+                <%
+                    if (request.getParameter("cla") != null)
+                        try {
+                            Connection com = null;
+                            String driver = "com.mysql.cj.jdbc.Driver";
+                            String dburl = "jdbc:mysql://127.0.0.1:3306/javaweb";
+                            String user = "root";
+                            String password = "root";
+                            Class.forName(driver);
+                            com = DriverManager.getConnection(dburl, user, password);
+                            String sql = "SELECT * FROM cla WHERE class = ? ;";
+                            PreparedStatement stat = com.prepareStatement(sql);
+                            String cla = request.getParameter("cla");
+                            stat.setString(1, cla);
+                            ResultSet rs = stat.executeQuery();
+                            ArrayList<String> stringArrayList = new ArrayList<String>();
+                            while (rs.next()) {
+                                if (cla.equals(rs.getString("class"))) {//匹配成功
+                                    stringArrayList.add(rs.getString("num"));
+                                }
+                            }
+                %>
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>Num</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <% if (!stringArrayList.isEmpty()) %>
+                    <% for (String num : stringArrayList) { %>
+                    <tr>
+                        <td><%= num %>
+                        </td>
+                    </tr>
+                    <% } %>
+                    </tbody>
+                </table>
+                <%
+                        } catch (Exception e) {
+                        }
+                %>
             </div>
         </div>
     </div>

@@ -70,38 +70,45 @@ public class TSSubmitServlet extends HttpServlet {
             }
             RequestDispatcher rd = request.getRequestDispatcher("yellow.jsp");
             rd.forward(request, response);
-        } else if (Q5[0].equals("1")) {
-            //green
-            color = "green";
-            System.out.println("green");
-            try {
-                String sql;
-                sql = "INSERT INTO record VALUES (?,?,?)";
-                PreparedStatement stat = com.prepareStatement(sql);
-                stat.setString(1, (String) request.getSession().getAttribute("name"));
-                stat.setString(2, color);
-                stat.setString(3, formatter.format(date));
-                stat.executeUpdate();
-            } catch (Exception ignore) {
+        } else{
+            //
+
+
+
+            if (Q5[0].equals("1")) {
+                //green
+                color = "green";
+                System.out.println("green");
+                try {
+                    String sql;
+                    sql = "INSERT INTO record VALUES (?,?,?)";
+                    PreparedStatement stat = com.prepareStatement(sql);
+                    stat.setString(1, (String) request.getSession().getAttribute("name"));
+                    stat.setString(2, color);
+                    stat.setString(3, formatter.format(date));
+                    stat.executeUpdate();
+                } catch (Exception ignore) {
+                }
+                RequestDispatcher rd = request.getRequestDispatcher("green.jsp");
+                rd.forward(request, response);
+            } else {
+                //gold
+                color = "gold";
+                System.out.println("gold");
+                try {
+                    String sql;
+                    sql = "INSERT INTO record VALUES (?,?,?)";
+                    PreparedStatement stat = com.prepareStatement(sql);
+                    stat.setString(1, (String) request.getSession().getAttribute("name"));
+                    stat.setString(2, color);
+                    stat.setString(3, formatter.format(date));
+                    stat.executeUpdate();
+                } catch (Exception ignore) {
+                }
+                RequestDispatcher rd = request.getRequestDispatcher("gold.jsp");
+                rd.forward(request, response);
             }
-            RequestDispatcher rd = request.getRequestDispatcher("green.jsp");
-            rd.forward(request, response);
-        } else {
-            //gold
-            color = "gold";
-            System.out.println("gold");
-            try {
-                String sql;
-                sql = "INSERT INTO record VALUES (?,?,?)";
-                PreparedStatement stat = com.prepareStatement(sql);
-                stat.setString(1, (String) request.getSession().getAttribute("name"));
-                stat.setString(2, color);
-                stat.setString(3, formatter.format(date));
-                stat.executeUpdate();
-            } catch (Exception ignore) {
-            }
-            RequestDispatcher rd = request.getRequestDispatcher("gold.jsp");
-            rd.forward(request, response);
         }
+
     }
 }

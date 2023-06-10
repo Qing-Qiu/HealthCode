@@ -1,4 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ page import="java.sql.*" %>
+<%@ page import="java.util.ArrayList" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -36,12 +38,67 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-4 col-md-offset-4">
-
+                    <h2 class="text-center">打卡信息查询</h2>
+                    <form id="login_in" action="queryRec.jsp" method="post">
+                        <br/>
+<%--                        <div class="text-center">--%>
+<%--                            <button type="submit" class="btn btn-primary" id="btnLogin" style="width: 50%">查询</button>--%>
+<%--                        </div>--%>
+                    </form>
                 </div>
             </div>
+            <div class="row">
+                <%
+                    try {
+                        Connection com = null;
+                        String driver = "com.mysql.cj.jdbc.Driver";
+                        String dburl = "jdbc:mysql://127.0.0.1:3306/javaweb";
+                        String user = "root";
+                        String password = "root";
+                        Class.forName(driver);
+                        com = DriverManager.getConnection(dburl, user, password);
+                        String sql = "SELECT * FROM record;";
+                        PreparedStatement stat = com.prepareStatement(sql);
+                        ResultSet rs = stat.executeQuery();
+                        ArrayList<String> nameArrayList = new ArrayList<String>();
+                        ArrayList<String> colorArrayList = new ArrayList<String>();
+                        ArrayList<String> timeArrayList = new ArrayList<String>();
+                        while (rs.next()) {
+                            nameArrayList.add(rs.getString("name"));
+                            colorArrayList.add(rs.getString("color"));
+                            timeArrayList.add(rs.getString("time"));
+                        }
+                %>
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>color</th>
+                        <th>time</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <% if (!nameArrayList.isEmpty()) %>
+                    <% for (int i = 0; i < nameArrayList.size(); i++) { %>
+                    <tr>
+                        <td><%= nameArrayList.get(i) %>
+                        </td>
+                        <td><%= colorArrayList.get(i) %>
+                        </td>
+                        <td><%= timeArrayList.get(i) %>
+                        </td>
+                    </tr>
+                    <% } %>
+                    </tbody>
+                </table>
+                <%
+                    } catch (Exception e) {
+                    }
+                %>
+            </div>
+            <div class="row"><br/></div>
         </div>
     </div>
-    <div class="row"><br/></div>
 </div>
 
 <div class="jumbotron text-center" style="margin-bottom:0">

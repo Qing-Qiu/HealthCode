@@ -62,7 +62,7 @@
                         <div class="form-group">
                             <label>教师/学生：</label>
                             <label><input type="radio" name="role" value="1">教师</label>
-                            <label><input type="radio" name="role" value="2">学生</label>
+                            <label><input type="radio" name="role" value="2" checked="checked">学生</label>
                         </div>
                         <div class="text-center">
                             <button type="submit" class="btn btn-primary" id="btnLogin" style="width: 50%">登录</button>

@@ -1,4 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ page import="java.sql.*" %>
+<%@ page import="java.io.*" %>
+<%@ page import="java.lang.*" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -36,7 +39,104 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-4 col-md-offset-4">
+                    <h2 class="text-center">添加学生信息</h2>
+                    <form id="login_in" action="insertStu.jsp" method="post">
+                        <div class="form-group">
+                            <label for="name">姓名：</label>
+                            <input type="text" class="form-control" id="name" name="name"
+                                   placeholder="请输入姓名">
+                        </div>
+                        <div class="form-group">
+                            <label for="idnum">身份证号：</label>
+                            <input type="text" class="form-control" id="idnum" name="idnum"
+                                   placeholder="请输入身份证号">
+                        </div>
+                        <div class="form-group">
+                            <label for="num">学号：</label>
+                            <input type="text" class="form-control" id="num" name="num"
+                                   placeholder="请输入学号">
+                        </div>
+                        <div class="form-group">
+                            <label for="col">学院：</label>
+                            <input type="text" class="form-control" id="col" name="col"
+                                   placeholder="请输入学院信息">
+                        </div>
+                        <div class="form-group">
+                            <label for="maj">专业：</label>
+                            <input type="text" class="form-control" id="maj" name="maj"
+                                   placeholder="请输入专业信息">
+                        </div>
+                        <div class="form-group">
+                            <label for="cla">班级：</label>
+                            <input type="text" class="form-control" id="cla" name="cla"
+                                   placeholder="请输入班级信息">
+                        </div>
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-primary" id="btnLogin" style="width: 50%">添加</button>
+                        </div>
+                        <div>
+                            <%
+                                if (request.getParameter("num") != null)
+                                    try {
+                                        Connection connection = null;
+                                        Connection com = null;
+                                        String driver = "com.mysql.cj.jdbc.Driver";
+                                        String dburl = "jdbc:mysql://127.0.0.1:3306/javaweb";
+                                        String user = "root";
+                                        String password = "root";
+                                        Class.forName(driver);
+                                        com = DriverManager.getConnection(dburl, user, password);
+                                        String sql = "INSERT INTO studentinfo VALUES (?,?,?)";
+                                        PreparedStatement stat = com.prepareStatement(sql);
+                                        String name = new String(request.getParameter("name").getBytes("iso-8859-1"), "UTF-8");
+                                        String num = request.getParameter("num");
+                                        String idnum = request.getParameter("idnum");
+                                        stat.setString(1, name);
+                                        stat.setString(2, num);
+                                        stat.setString(3, idnum);
+                                        stat.executeUpdate();
 
+                                        //学院信息
+                                        sql = "INSERT INTO col VALUES (?,?)";
+                                        stat = com.prepareStatement(sql);
+                                        String col = request.getParameter("col");
+                                        stat.setString(1, num);
+                                        stat.setString(2, col);
+                                        stat.executeUpdate();
+
+                                        //专业信息
+                                        sql = "INSERT INTO maj VALUES (?,?)";
+                                        stat = com.prepareStatement(sql);
+                                        String maj = request.getParameter("maj");
+                                        stat.setString(1, num);
+                                        stat.setString(2, maj);
+                                        stat.executeUpdate();
+
+                                        //班级信息
+                                        sql = "INSERT INTO cla VALUES (?,?)";
+                                        stat = com.prepareStatement(sql);
+                                        String cla = request.getParameter("cla");
+                                        stat.setString(1, num);
+                                        stat.setString(2, cla);
+                                        stat.executeUpdate();
+
+                                        //学生信息
+                                        sql = "INSERT INTO stu VALUES (?,?,?,?)";
+                                        stat = com.prepareStatement(sql);
+                                        stat.setString(1, num);
+                                        stat.setString(2, name);
+                                        stat.setString(3, idnum);
+                                        stat.setString(4, col);
+                                        Integer affected_row = stat.executeUpdate();
+
+                                        if (affected_row != 0) {
+                                            out.println("Insert Successfully!");
+                                        }
+                                    } catch (Exception e) {
+                                    }
+                            %>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
@@ -83,8 +183,7 @@
                 </li>`;
         } else if (type === 'sys') {
             document.getElementById("query").innerHTML =
-                `
-                <li class="dropdown">
+                `<li class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#">查询信息
                         <span class="caret"></span></a>
                     <ul class="dropdown-menu">
@@ -105,6 +204,87 @@
                 </li>`;
         }
     }
+</script>
+<script type="text/javascript">
+    var form = $('#login_in');
+    $(document).ready(function () {
+        form.bootstrapValidator({
+            message: '输入值不合法',
+            feedbackIcons: { //提示图标
+                valid: 'glyphicon glyphicon-ok',
+                invalid: 'glyphicon glyphicon-remove',
+                validating: 'glyphicon glyphicon-refresh'
+            },
+            fields: {
+                name: {
+                    validators: {
+                        notEmpty: {
+                            message: '姓名不能为空'
+                        },
+                        stringLength: {
+                            min: 1,
+                            max: 8
+                        }
+                    }
+                },
+                num: {
+                    validators: {
+                        notEmpty: {
+                            message: '学号不能为空'
+                        },
+                        stringLength: {
+                            min: 12,
+                            max: 12,
+                            message: '请输入12位学号'
+                        }
+                    }
+                },
+                idnum: {
+                    validators: {
+                        notEmpty: {
+                            message: '身份证不能为空'
+                        },
+                        stringLength: {
+                            min: 18,
+                            max: 18,
+                            message: '请输入18位身份证'
+                        }
+                    }
+                },
+                col: {
+                    validators: {
+                        notEmpty: {
+                            message: '请选择选项'
+                        },
+                        stringLength: {
+                            min: 4,
+                            max: 4,
+                            message: '请输入正确的学院信息'
+                        }
+                    }
+                },
+                maj: {
+                    validators: {
+                        notEmpty: {
+                            message: '请选择选项'
+                        }
+                    }
+                },
+                cla: {
+                    validators: {
+                        notEmpty: {
+                            message: '请选择选项'
+                        },
+                        stringLength: {
+                            min: 1,
+                            max: 2,
+                            message: '请输入正确的班级信息'
+                        }
+                    }
+                }
+            }
+        });
+    });
 </script>
 </body>
 </html>
