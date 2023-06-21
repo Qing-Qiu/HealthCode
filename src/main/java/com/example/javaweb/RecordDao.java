@@ -13,7 +13,7 @@ public interface RecordDao extends Dao {
 
     public ArrayList<Record> queryStu(String num);
 
-    public void insertStu(Object stu);
+    public boolean insertStu(Student stu);
 
-    public void insertTea(Object tea);
+    public boolean insertTea(Teacher tea);
 }

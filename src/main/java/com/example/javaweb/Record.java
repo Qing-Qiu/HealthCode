@@ -5,14 +5,10 @@ public class Record {
     private String color;
     private String time;
     private String num;
-
     private String idnum;
-
     private String col;
     private String maj;
-
     private String cla;
-
     private String role;
 
     public Record() {

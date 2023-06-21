@@ -2,6 +2,9 @@
 <%@ page import="java.sql.*" %>
 <%@ page import="java.io.*" %>
 <%@ page import="java.lang.*" %>
+<%@ page import="com.example.javaweb.Student" %>
+<%@ page import="com.example.javaweb.RecordDao" %>
+<%@ page import="com.example.javaweb.RecordDaoImpl" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -76,64 +79,25 @@
                         </div>
                         <div>
                             <%
-                                if (request.getParameter("num") != null)
-                                    try {
-                                        Connection connection = null;
-                                        Connection com = null;
-                                        String driver = "com.mysql.cj.jdbc.Driver";
-                                        String dburl = "jdbc:mysql://127.0.0.1:3306/javaweb";
-                                        String user = "root";
-                                        String password = "root";
-                                        Class.forName(driver);
-                                        com = DriverManager.getConnection(dburl, user, password);
-                                        String sql = "INSERT INTO studentinfo VALUES (?,?,?)";
-                                        PreparedStatement stat = com.prepareStatement(sql);
-                                        String name = new String(request.getParameter("name").getBytes("iso-8859-1"), "UTF-8");
-                                        String num = request.getParameter("num");
-                                        String idnum = request.getParameter("idnum");
-                                        stat.setString(1, name);
-                                        stat.setString(2, num);
-                                        stat.setString(3, idnum);
-                                        stat.executeUpdate();
-
-                                        //学院信息
-                                        sql = "INSERT INTO col VALUES (?,?)";
-                                        stat = com.prepareStatement(sql);
-                                        String col = request.getParameter("col");
-                                        stat.setString(1, num);
-                                        stat.setString(2, col);
-                                        stat.executeUpdate();
-
-                                        //专业信息
-                                        sql = "INSERT INTO maj VALUES (?,?)";
-                                        stat = com.prepareStatement(sql);
-                                        String maj = request.getParameter("maj");
-                                        stat.setString(1, num);
-                                        stat.setString(2, maj);
-                                        stat.executeUpdate();
-
-                                        //班级信息
-                                        sql = "INSERT INTO cla VALUES (?,?)";
-                                        stat = com.prepareStatement(sql);
-                                        String cla = request.getParameter("cla");
-                                        stat.setString(1, num);
-                                        stat.setString(2, cla);
-                                        stat.executeUpdate();
-
-                                        //学生信息
-                                        sql = "INSERT INTO stu VALUES (?,?,?,?)";
-                                        stat = com.prepareStatement(sql);
-                                        stat.setString(1, num);
-                                        stat.setString(2, name);
-                                        stat.setString(3, idnum);
-                                        stat.setString(4, col);
-                                        Integer affected_row = stat.executeUpdate();
-
-                                        if (affected_row != 0) {
-                                            out.println("Insert Successfully!");
-                                        }
-                                    } catch (Exception e) {
-                                    }
+                                if (request.getParameter("num") != null) {
+                                    String name = new String(request.getParameter("name").getBytes("iso-8859-1"), "UTF-8");
+                                    String num = request.getParameter("num");
+                                    String idnum = request.getParameter("idnum");
+                                    String col = request.getParameter("col");
+                                    String maj = new String(request.getParameter("maj").getBytes("iso-8859-1"), "UTF-8");
+                                    String cla = request.getParameter("cla");
+                                    Student student = new Student();
+                                    student.setName(name);
+                                    student.setNum(num);
+                                    student.setIdnum(idnum);
+                                    student.setCol(col);
+                                    student.setMaj(maj);
+                                    student.setCla(cla);
+                                    RecordDao dao = new RecordDaoImpl();
+                                    boolean flag = dao.insertStu(student);
+                                    if (flag) out.print("添加成功！<br />");
+                                    else out.print("添加失败！<br />");
+                                }
                             %>
                         </div>
                     </form>

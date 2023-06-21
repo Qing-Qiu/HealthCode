@@ -2,10 +2,12 @@ package com.example.javaweb;
 
 public class Teacher {
     private String name;
-
     private String num;
-
     private String idnum;
+    private String col;
+    private String maj;
+    private String cla;
+    private String role;
 
     public Teacher() {
     }
@@ -49,5 +51,37 @@ public class Teacher {
 
     public void setIdnum(String idnum) {
         this.idnum = idnum;
+    }
+
+    public String getCol() {
+        return col;
+    }
+
+    public void setCol(String col) {
+        this.col = col;
+    }
+
+    public String getMaj() {
+        return maj;
+    }
+
+    public void setMaj(String maj) {
+        this.maj = maj;
+    }
+
+    public String getCla() {
+        return cla;
+    }
+
+    public void setCla(String cla) {
+        this.cla = cla;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 }

@@ -2,6 +2,9 @@
 <%@ page import="java.sql.*" %>
 <%@ page import="java.io.*" %>
 <%@ page import="java.lang.*" %>
+<%@ page import="com.example.javaweb.Teacher" %>
+<%@ page import="com.example.javaweb.RecordDao" %>
+<%@ page import="com.example.javaweb.RecordDaoImpl" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -62,6 +65,16 @@
                                    placeholder="请输入学院信息">
                         </div>
                         <div class="form-group">
+                            <label for="maj">专业：</label>
+                            <input type="text" class="form-control" id="maj" name="maj"
+                                   placeholder="请输入专业信息">
+                        </div>
+                        <div class="form-group">
+                            <label for="cla">班级：</label>
+                            <input type="text" class="form-control" id="cla" name="cla"
+                                   placeholder="请输入班级信息">
+                        </div>
+                        <div class="form-group">
                             <label>角色：</label><br/>
                             <label><input type="radio" name="role" value="1">系统管理员</label>
                             <label><input type="radio" name="role" value="2">校级管理员</label>
@@ -73,77 +86,27 @@
                         </div>
                         <div>
                             <%
-                                if (request.getParameter("num") != null)
-                                    try {
-                                        Connection connection = null;
-                                        Connection com = null;
-                                        String driver = "com.mysql.cj.jdbc.Driver";
-                                        String dburl = "jdbc:mysql://127.0.0.1:3306/javaweb";
-                                        String user = "root";
-                                        String password = "root";
-                                        Class.forName(driver);
-                                        com = DriverManager.getConnection(dburl, user, password);
-                                        String sql = "INSERT INTO teacherinfo VALUES (?,?,?)";
-                                        PreparedStatement stat = com.prepareStatement(sql);
-                                        String name = new String(request.getParameter("name").getBytes("iso-8859-1"), "UTF-8");
-                                        String num = request.getParameter("num");
-                                        String idnum = request.getParameter("idnum");
-                                        stat.setString(1, name);
-                                        stat.setString(2, num);
-                                        stat.setString(3, idnum);
-                                        stat.executeUpdate();
-
-                                        String[] role = request.getParameterValues("role");
-                                        String rol = "teacher";
-                                        Integer affected_row = 0;
-                                        if (role != null)
-                                            if (role[0].equals("1")) {
-                                                //系统管理员
-                                                affected_row = 1;
-                                                rol = "sysadmin";
-                                            } else if (role[0].equals("2")) {
-                                                //校级管理员
-                                                sql = "INSERT INTO sch_admin VALUES (?,?)";
-                                                stat = com.prepareStatement(sql);
-                                                stat.setString(1, num);
-                                                stat.setString(2, idnum);
-                                                affected_row = stat.executeUpdate();
-                                                rol = "schadmin";
-                                            } else if (role[0].equals("3")) {
-                                                //院级管理员
-                                                sql = "INSERT INTO col_admin VALUES (?,?)";
-                                                stat = com.prepareStatement(sql);
-                                                stat.setString(1, num);
-                                                stat.setString(2, idnum);
-                                                affected_row = stat.executeUpdate();
-                                                rol = "coladmin";
-                                            }
-                                        if (affected_row != 0) {
-                                            out.println("Grant Successfully!");
-                                        }
-
-                                        //学院信息
-                                        sql = "INSERT INTO col VALUES (?,?)";
-                                        stat = com.prepareStatement(sql);
-                                        String col = request.getParameter("col");
-                                        stat.setString(1, num);
-                                        stat.setString(2, col);
-                                        stat.executeUpdate();
-
-                                        //教师信息
-                                        sql = "INSERT INTO tea VALUES (?,?,?,?,?)";
-                                        stat = com.prepareStatement(sql);
-                                        stat.setString(1, num);
-                                        stat.setString(2, name);
-                                        stat.setString(3, idnum);
-                                        stat.setString(4, rol);
-                                        stat.setString(5, col);
-                                        affected_row = stat.executeUpdate();
-                                        if (affected_row != 0) {
-                                            out.println("Insert Successfully!<br/>");
-                                        }
-                                    } catch (Exception e) {
-                                    }
+                                if (request.getParameter("num") != null) {
+                                    String name = new String(request.getParameter("name").getBytes("iso-8859-1"), "UTF-8");
+                                    String num = request.getParameter("num");
+                                    String idnum = request.getParameter("idnum");
+                                    String col = request.getParameter("col");
+                                    String maj = new String(request.getParameter("maj").getBytes("iso-8859-1"), "UTF-8");
+                                    String cla = request.getParameter("cla");
+                                    String[] role = request.getParameterValues("role");
+                                    Teacher teacher = new Teacher();
+                                    teacher.setName(name);
+                                    teacher.setNum(num);
+                                    teacher.setIdnum(idnum);
+                                    teacher.setCol(col);
+                                    teacher.setMaj(maj);
+                                    teacher.setCla(cla);
+                                    teacher.setRole(role[0]);
+                                    RecordDao dao = new RecordDaoImpl();
+                                    boolean flag = dao.insertTea(teacher);
+                                    if (flag) out.print("添加成功！<br />");
+                                    else out.print("添加失败！<br />");
+                                }
                             %>
                         </div>
                     </form>
