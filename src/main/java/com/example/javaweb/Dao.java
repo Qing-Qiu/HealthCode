@@ -27,4 +27,10 @@ public interface Dao {
         }
         return conn;
     }
+
+    public static void closeAll(Connection conn, Statement stmt, ResultSet rs) throws Exception {
+        if (rs != null) rs.close();
+        if (stmt != null) stmt.close();
+        if (conn != null) conn.close();
+    }
 }

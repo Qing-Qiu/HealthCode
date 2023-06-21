@@ -1,6 +1,9 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ page import="java.sql.*" %>
 <%@ page import="java.util.ArrayList" %>
+<%@ page import="com.example.javaweb.Record" %>
+<%@ page import="com.example.javaweb.RecordDao" %>
+<%@ page import="com.example.javaweb.RecordDaoImpl" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -53,47 +56,51 @@
             </div>
             <div class="row">
                 <%
-                    if(request.getParameter("col")!=null)
-                    try {
-                        Connection com = null;
-                        String driver = "com.mysql.cj.jdbc.Driver";
-                        String dburl = "jdbc:mysql://127.0.0.1:3306/javaweb";
-                        String user = "root";
-                        String password = "root";
-                        Class.forName(driver);
-                        com = DriverManager.getConnection(dburl, user, password);
-                        String sql = "SELECT * FROM col WHERE college = ? ;";
-                        PreparedStatement stat = com.prepareStatement(sql);
+                    if (request.getParameter("col") != null) {
+                        RecordDao dao = new RecordDaoImpl();
                         String col = request.getParameter("col");
-                        stat.setString(1, col);
-                        ResultSet rs = stat.executeQuery();
-                        ArrayList<String> stringArrayList = new ArrayList<String>();
-                        while (rs.next()) {
-                            if (col.equals(rs.getString("college"))) {//匹配成功
-                                stringArrayList.add(rs.getString("num"));
-                            }
-                        }
+                        ArrayList<Record> records = dao.queryCol(col);
                 %>
                 <table class="table table-striped">
                     <thead>
                     <tr>
-                        <th>Num</th>
+                        <th>姓名</th>
+                        <th>健康码颜色</th>
+                        <th>打卡时间</th>
+                        <th>学号</th>
+                        <th>身份证号</th>
+                        <th>学院</th>
+                        <th>专业</th>
+                        <th>班级</th>
+                        <th>身份</th>
                     </tr>
                     </thead>
                     <tbody>
-                    <% if (!stringArrayList.isEmpty()) %>
-                    <% for (String num : stringArrayList) { %>
+                    <% for (Record record : records) { %>
                     <tr>
-                        <td><%= num %>
+                        <td><%= record.getName() %>
+                        </td>
+                        <td><%= record.getColor() %>
+                        </td>
+                        <td><%= record.getTime() %>
+                        </td>
+                        <td><%= record.getNum() %>
+                        </td>
+                        <td><%= record.getIdnum() %>
+                        </td>
+                        <td><%= record.getCol() %>
+                        </td>
+                        <td><%= record.getMaj() %>
+                        </td>
+                        <td><%= record.getCla() %>
+                        </td>
+                        <td><%= record.getRole().equals("student") ? "学生" : (record.getRole().equals("teacher") ? "教师" : (record.getRole().equals("coladmin") ? "院级管理员" : "校级管理员")) %>
                         </td>
                     </tr>
                     <% } %>
                     </tbody>
                 </table>
-                <%
-                    } catch (Exception e) {
-                    }
-                %>
+                <% } %>
             </div>
         </div>
     </div>

@@ -1,5 +1,4 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<%@ page import="java.sql.*" %>
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="com.example.javaweb.Record" %>
 <%@ page import="com.example.javaweb.RecordDao" %>
@@ -55,9 +54,15 @@
                 <table class="table table-striped">
                     <thead>
                     <tr>
-                        <th>Name</th>
-                        <th>color</th>
-                        <th>time</th>
+                        <th>姓名</th>
+                        <th>健康码颜色</th>
+                        <th>打卡时间</th>
+                        <th>学号</th>
+                        <th>身份证号</th>
+                        <th>学院</th>
+                        <th>专业</th>
+                        <th>班级</th>
+                        <th>身份</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -68,6 +73,18 @@
                         <td><%= record.getColor() %>
                         </td>
                         <td><%= record.getTime() %>
+                        </td>
+                        <td><%= record.getNum() %>
+                        </td>
+                        <td><%= record.getIdnum() %>
+                        </td>
+                        <td><%= record.getCol() %>
+                        </td>
+                        <td><%= record.getMaj() %>
+                        </td>
+                        <td><%= record.getCla() %>
+                        </td>
+                        <td><%= record.getRole().equals("student") ? "学生" : (record.getRole().equals("teacher") ? "教师" : (record.getRole().equals("coladmin") ? "院级管理员" : "校级管理员")) %>
                         </td>
                     </tr>
                     <% } %>

@@ -13,7 +13,7 @@ import java.util.Date;
 
 @WebServlet(name = "TSSubmitServlet", value = "/TSSubmitServlet")
 public class TSSubmitServlet extends HttpServlet {
-    Connection com = null;
+    Connection conn = null;
     String driver = "com.mysql.cj.jdbc.Driver";
     String dburl = "jdbc:mysql://127.0.0.1:3306/javaweb?useUnicode=true&characterEncoding=UTF-8";
     String user = "root";
@@ -22,7 +22,7 @@ public class TSSubmitServlet extends HttpServlet {
     public void init() {
         try {
             Class.forName(driver);
-            com = DriverManager.getConnection(dburl, user, password);
+            conn = DriverManager.getConnection(dburl, user, password);
         } catch (Exception ignored) {
         }
     }
@@ -45,7 +45,7 @@ public class TSSubmitServlet extends HttpServlet {
             try {
                 String sql;
                 sql = "INSERT INTO record VALUES (?,?,?)";
-                PreparedStatement stat = com.prepareStatement(sql);
+                PreparedStatement stat = conn.prepareStatement(sql);
                 stat.setString(1, (String) request.getSession().getAttribute("name"));
                 stat.setString(2, color);
                 stat.setString(3, formatter.format(date));
@@ -61,7 +61,7 @@ public class TSSubmitServlet extends HttpServlet {
             try {
                 String sql;
                 sql = "INSERT INTO record VALUES (?,?,?)";
-                PreparedStatement stat = com.prepareStatement(sql);
+                PreparedStatement stat = conn.prepareStatement(sql);
                 stat.setString(1, (String) request.getSession().getAttribute("name"));
                 stat.setString(2, color);
                 stat.setString(3, formatter.format(date));
@@ -79,7 +79,7 @@ public class TSSubmitServlet extends HttpServlet {
                 try {
                     String sql;
                     sql = "INSERT INTO record VALUES (?,?,?)";
-                    PreparedStatement stat = com.prepareStatement(sql);
+                    PreparedStatement stat = conn.prepareStatement(sql);
                     stat.setString(1, (String) request.getSession().getAttribute("name"));
                     stat.setString(2, color);
                     stat.setString(3, formatter.format(date));
@@ -95,7 +95,7 @@ public class TSSubmitServlet extends HttpServlet {
                 try {
                     String sql;
                     sql = "INSERT INTO record VALUES (?,?,?)";
-                    PreparedStatement stat = com.prepareStatement(sql);
+                    PreparedStatement stat = conn.prepareStatement(sql);
                     stat.setString(1, (String) request.getSession().getAttribute("name"));
                     stat.setString(2, color);
                     stat.setString(3, formatter.format(date));

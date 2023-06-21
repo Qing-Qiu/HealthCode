@@ -1,6 +1,9 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ page import="java.sql.*" %>
 <%@ page import="java.util.ArrayList" %>
+<%@ page import="com.example.javaweb.Record" %>
+<%@ page import="com.example.javaweb.RecordDao" %>
+<%@ page import="com.example.javaweb.RecordDaoImpl" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -53,58 +56,48 @@
             </div>
             <div class="row">
                 <%
-                    if(request.getParameter("num")!=null)
-                        try {
-                            Connection com = null;
-                            String driver = "com.mysql.cj.jdbc.Driver";
-                            String dburl = "jdbc:mysql://127.0.0.1:3306/javaweb";
-                            String user = "root";
-                            String password = "root";
-                            Class.forName(driver);
-                            com = DriverManager.getConnection(dburl, user, password);
-                            String sql = "SELECT * FROM stu WHERE num = ? ;";
-                            PreparedStatement stat = com.prepareStatement(sql);
-                            String num = request.getParameter("num");
-                            stat.setString(1, num);
-                            ResultSet rs = stat.executeQuery();
-                            ArrayList<String> numArrayList = new ArrayList<String>();
-                            ArrayList<String> nameArrayList = new ArrayList<String>();
-                            ArrayList<String> idnumArrayList = new ArrayList<String>();
-                            ArrayList<String> collegeArrayList = new ArrayList<String>();
-                            while (rs.next()) {
-                                if (num.equals(rs.getString("num"))) {//匹配成功
-                                    numArrayList.add(rs.getString("num"));
-                                    nameArrayList.add(rs.getString("name"));
-                                    idnumArrayList.add(rs.getString("idnum"));
-                                    collegeArrayList.add(rs.getString("college"));
-                                }
-                            }
+                    if (request.getParameter("num") != null) {
+                        RecordDao dao = new RecordDaoImpl();
+                        String num = request.getParameter("num");
+                        ArrayList<Record> records = dao.queryStu(num);
                 %>
                 <table class="table table-striped">
                     <thead>
                     <tr>
-                        <th>Num</th>
-                        <th>Name</th>
-                        <th>IdNum</th>
-                        <th>College</th>
+                        <th>姓名</th>
+                        <th>健康码颜色</th>
+                        <th>打卡时间</th>
+                        <th>学号</th>
+                        <th>身份证号</th>
+                        <th>学院</th>
+                        <th>专业</th>
+                        <th>班级</th>
                     </tr>
                     </thead>
                     <tbody>
-                    <% if (!numArrayList.isEmpty()) %>
-                    <% for (int i=0;i<numArrayList.size();i++) { %>
+                    <% for (Record record : records) { %>
                     <tr>
-                        <td><%= numArrayList.get(i)%></td>
-                        <td><%= nameArrayList.get(i)%></td>
-                        <td><%= idnumArrayList.get(i)%></td>
-                        <td><%= collegeArrayList.get(i)%></td>
+                        <td><%= record.getName() %>
+                        </td>
+                        <td><%= record.getColor() %>
+                        </td>
+                        <td><%= record.getTime() %>
+                        </td>
+                        <td><%= record.getNum() %>
+                        </td>
+                        <td><%= record.getIdnum() %>
+                        </td>
+                        <td><%= record.getCol() %>
+                        </td>
+                        <td><%= record.getMaj() %>
+                        </td>
+                        <td><%= record.getCla() %>
+                        </td>
                     </tr>
                     <% } %>
                     </tbody>
                 </table>
-                <%
-                        } catch (Exception e) {
-                        }
-                %>
+                <% } %>
             </div>
         </div>
     </div>

@@ -3,15 +3,15 @@ package com.example.javaweb;
 import java.util.ArrayList;
 
 public interface RecordDao extends Dao {
-    public String queryCla(String cla);
+    public ArrayList<Record> queryCla(String cla);
 
-    public String queryCol(String col);
+    public ArrayList<Record> queryCol(String col);
 
-    public String queryMaj(String maj);
+    public ArrayList<Record> queryMaj(String maj);
 
     public ArrayList<Record> queryRec();
 
-    public ArrayList<Object> queryStu();
+    public ArrayList<Record> queryStu(String num);
 
     public void insertStu(Object stu);
 

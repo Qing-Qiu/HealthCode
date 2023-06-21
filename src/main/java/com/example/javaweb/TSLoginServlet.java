@@ -12,7 +12,7 @@ import java.sql.Statement;
 
 @WebServlet(name = "TSLoginServlet", value = "/TSLoginServlet")
 public class TSLoginServlet extends HttpServlet {
-    Connection com = null;
+    Connection conn = null;
     String driver = "com.mysql.cj.jdbc.Driver";
     String dburl = "jdbc:mysql://127.0.0.1:3306/javaweb?useUnicode=true&characterEncoding=UTF-8";
     String user = "root";
@@ -21,7 +21,7 @@ public class TSLoginServlet extends HttpServlet {
     public void init() {
         try {
             Class.forName(driver);
-            com = DriverManager.getConnection(dburl, user, password);
+            conn = DriverManager.getConnection(dburl, user, password);
         } catch (Exception ignored) {
         }
     }
@@ -29,7 +29,7 @@ public class TSLoginServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) {
         try {
-            Statement stat = com.createStatement();
+            Statement stat = conn.createStatement();
             String sql;
             String[] role = request.getParameterValues("role");
             boolean flag = false;
