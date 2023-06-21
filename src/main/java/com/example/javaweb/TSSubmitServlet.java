@@ -72,9 +72,6 @@ public class TSSubmitServlet extends HttpServlet {
             rd.forward(request, response);
         } else{
             //
-
-
-
             if (Q5[0].equals("1")) {
                 //green
                 color = "green";

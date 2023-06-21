@@ -9,11 +9,6 @@
     </properties>
     <root id="archive" name="JavaWeb-1.0-SNAPSHOT.war">
       <element id="artifact" artifact-name="JavaWeb:war exploded" />
-      <element id="directory" name="WEB-INF">
-        <element id="directory" name="lib">
-          <element id="library" level="project" name="mysql-connector-j-8.0.33" />
-        </element>
-      </element>
     </root>
   </artifact>
 </component>

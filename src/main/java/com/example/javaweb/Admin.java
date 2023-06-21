@@ -2,15 +2,15 @@ package com.example.javaweb;
 
 import java.util.Objects;
 
-public class SchAdmin {
+public class Admin {
     private String num;
 
     private String password;
 
-    public SchAdmin() {
+    public Admin() {
     }
 
-    public SchAdmin(String num, String password) {
+    public Admin(String num, String password) {
         this.num = num;
         this.password = password;
     }
@@ -35,7 +35,7 @@ public class SchAdmin {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        SchAdmin schAdmin = (SchAdmin) o;
-        return Objects.equals(num, schAdmin.num) && Objects.equals(password, schAdmin.password);
+        Admin admin = (Admin) o;
+        return Objects.equals(num, admin.num) && Objects.equals(password, admin.password);
     }
 }

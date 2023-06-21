@@ -34,7 +34,7 @@ public class TSLoginServlet extends HttpServlet {
             String[] role = request.getParameterValues("role");
             boolean flag = false;
             if (role[0].equals("1")) {
-                sql = "SELECT * FROM teacherinfo;";
+                sql = "SELECT name,num,idnum FROM teacher;";
                 ResultSet rs = stat.executeQuery(sql);
                 Teacher teacher = new Teacher(new String(request.getParameter("name").getBytes("iso-8859-1"), "GBK"),
                         new String(request.getParameter("num").getBytes("iso-8859-1"), "GBK"),
@@ -55,15 +55,12 @@ public class TSLoginServlet extends HttpServlet {
                     }
                 }
             } else {
-                sql = "SELECT * FROM studentinfo;";
+                sql = "SELECT name,num,idnum FROM student;";
                 ResultSet rs = stat.executeQuery(sql);
                 Student student = new Student(new String(request.getParameter("name").getBytes("iso-8859-1"), "GBK"),
                         new String(request.getParameter("num").getBytes("iso-8859-1"), "GBK"),
                         new String(request.getParameter("idnum").getBytes("iso-8859-1"), "GBK"));
                 while (rs.next()) {
-//                    System.out.println(rs.getString("name")); //UTF-8
-//                    System.out.println(request.getParameter("name")); //iso-8859-1
-//                    System.out.println(new String(request.getParameter("name").getBytes("iso-8859-1"),"GBK"));//UTF-8
                     Student student1 = new Student();
                     student1.setName(new String(rs.getString("name").getBytes("UTF-8"), "GBK"));
                     student1.setNum(new String(rs.getString("num").getBytes("UTF-8"), "GBK"));

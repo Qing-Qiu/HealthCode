@@ -30,15 +30,15 @@ public class ColLoginServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
             Statement stat = com.createStatement();
-            String sql = "SELECT * FROM col_admin;";
+            String sql = "SELECT admin.num, admin.password FROM admin, teacher WHERE teacher.num = admin.num AND teacher.role = 'coladmin';";
             ResultSet rs = stat.executeQuery(sql);
-            ColAdmin colAdmin = new ColAdmin(request.getParameter("num"), request.getParameter("password"));
+            Admin admin = new Admin(request.getParameter("num"), request.getParameter("password"));
             boolean flag = false;
             while (rs.next()) {
-                ColAdmin colAdmin1 = new ColAdmin();
-                colAdmin1.setNum(rs.getString("num"));
-                colAdmin1.setPassword(rs.getString("password"));
-                if (colAdmin1.equals(colAdmin)) {//登录成功
+                Admin admin1 = new Admin();
+                admin1.setNum(rs.getString("num"));
+                admin1.setPassword(rs.getString("password"));
+                if (admin1.equals(admin)) {//登录成功
                     flag = true;
                     request.getSession().setAttribute("admin", "col");
                     break;

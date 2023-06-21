@@ -3,7 +3,6 @@ package com.example.javaweb;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.sql.*;
-import java.util.ArrayList;
 
 @WebServlet(name = "SchLoginServlet", value = "/SchLoginServlet")
 public class SchLoginServlet extends HttpServlet {
@@ -25,15 +24,15 @@ public class SchLoginServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) {
         try {
             Statement stat = com.createStatement();
-            String sql = "SELECT * FROM sch_admin;";
+            String sql = "SELECT admin.num, admin.password FROM admin, teacher WHERE teacher.num = admin.num AND teacher.role = 'schadmin';";
             ResultSet rs = stat.executeQuery(sql);
-            SchAdmin schAdmin = new SchAdmin(request.getParameter("num"), request.getParameter("password"));
+            Admin schAdmin = new Admin(request.getParameter("num"), request.getParameter("password"));
             boolean flag = false;
             while (rs.next()) {
-                SchAdmin schAdmin1 = new SchAdmin();
-                schAdmin1.setNum(rs.getString("num"));
-                schAdmin1.setPassword(rs.getString("password"));
-                if (schAdmin1.equals(schAdmin)) {//登录成功
+                Admin admin1 = new Admin();
+                admin1.setNum(rs.getString("num"));
+                admin1.setPassword(rs.getString("password"));
+                if (admin1.equals(schAdmin)) {//登录成功
                     flag = true;
                     request.getSession().setAttribute("admin", "sch");
                     break;
